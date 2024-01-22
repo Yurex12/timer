@@ -10,29 +10,29 @@ type TimerState = {
   timers: Timer[];
 };
 
-type TimersContextValue = TimerState & {
-  addTimer: (timerData: Timer) => void;
-  startTimer: () => void;
-  stopTimer: () => void;
-};
-
-// type TimerContextProps = {
-//   isRunning: boolean;
-//   timers: Timer[];
+// type TimersContextValue = TimerState & {
 //   addTimer: (timerData: Timer) => void;
 //   startTimer: () => void;
 //   stopTimer: () => void;
 // };
-// const TimerContext = createContext({} as TimerContextProps);
 
-const TimerContext = createContext<TimersContextValue | null>(null);
+// const TimerContext = createContext<TimersContextValue | null>(null);
+
+type TimerContextProps = {
+  isRunning: boolean;
+  timers: Timer[];
+  addTimer: (timerData: Timer) => void;
+  startTimer: () => void;
+  stopTimer: () => void;
+};
+const TimerContext = createContext({} as TimerContextProps);
 
 type TimerProviderProps = {
   children: ReactNode;
 };
 
 const initialState: TimerState = {
-  isRunning: false,
+  isRunning: true,
   timers: [],
 };
 
@@ -86,7 +86,7 @@ export function TimerProvider({ children }: TimerProviderProps) {
     dispatch({ type: 'STOP_TIMER' });
   }
 
-  const value: TimersContextValue = {
+  const value: TimerContextProps = {
     addTimer,
     startTimer,
     stopTimer,
